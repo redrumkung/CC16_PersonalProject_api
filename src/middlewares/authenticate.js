@@ -10,7 +10,7 @@ const authenticate = catchError(async (req, res, next) => {
     createError("invalid authorization header", 401);
   }
   const token = authorization.split(" ")[1];
-  const decodePayload = jwtService.verify(token);
+  const decodePayload = jwtService.verify(token, "Ronnapat");
 
   const user = await userService.findUserById(decodePayload.userId);
   if (!user) {
@@ -18,6 +18,7 @@ const authenticate = catchError(async (req, res, next) => {
   }
   delete user.password;
   req.user = user;
+  console.log(user)
   next();
 });
 
